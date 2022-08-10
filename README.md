@@ -3,7 +3,7 @@
 Watir for testing your Mobile Devices. Powered by Appium.
 This project is a revamp of Tap watir https://github.com/watir/tap_watir.
 
-All the inspiration from this project is taking from Tap Watir, so all the credit goes
+All the inspiration from this project is taken from Tap Watir, so all the credit goes
 to the original creators and contributors
 
 ## Installation
