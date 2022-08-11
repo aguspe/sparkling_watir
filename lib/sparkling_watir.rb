@@ -1,3 +1,4 @@
+require 'appium_lib_core'
 require 'watir'
 
 module SparklingWatir

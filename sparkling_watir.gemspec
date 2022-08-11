@@ -20,13 +20,13 @@ Gem::Specification.new do |spec|
   end
 
   spec.require_paths = ['lib']
-  spec.required_ruby_version = '>= 2.3.0'
+  spec.required_ruby_version = '>= 2.7.0'
 
   spec.add_development_dependency 'bundler', '~> 2.3.17'
   spec.add_development_dependency 'rake', '~> 13.0.6'
   spec.add_development_dependency 'rspec', '~> 3.11.0'
   spec.add_development_dependency 'rubocop', '~> 0.50'
 
-  spec.add_dependency 'appium_lib_core', '~>5.0.0.rc1'
+  spec.add_dependency 'appium_lib_core', '~>5.3.0 '
   spec.add_dependency 'watir', '~> 7.1.0'
 end
