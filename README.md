@@ -27,7 +27,9 @@ Or install it yourself as:
     $ gem install sparkling_watir
 
 If you want to run the tests on iOS just create a simulator that is an iPhone 8 with os 15.5 or you can change 
-the capabilities in spec/config/caps
+the capabilities in spec/config/caps and you can download the testing app [here](https://github.com/cloudgrey-io/the-app/releases/tag/v1.10.0)
+
+All the credit for the testing app goes to Jonathan Lipps.
 
 If you want to switch between android and iOS capabilties just run:
 
