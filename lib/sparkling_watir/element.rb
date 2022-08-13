@@ -1,11 +1,15 @@
 # frozen_string_literal: true
+require_relative 'gestures'
+require_relative 'wait'
 
 module SparklingWatir
-
   #
   # This is a element in the native app context
   #
   class Element
+    include Gestures
+    include Waitable
+
     def initialize(driver, selector)
       @driver = driver
       @selector = selector
@@ -48,7 +52,7 @@ module SparklingWatir
     end
 
     def bounds
-      {x: coordinates.x + size.width, y: coordinates.y + size.height}
+      { x: coordinates.x + size.width, y: coordinates.y + size.height }
     end
 
     private
