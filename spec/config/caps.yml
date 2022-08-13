@@ -1,0 +1,15 @@
+---
+default_platform: ios
+android:
+  url: http://localhost:4723/wd/hub
+  platformName: Android
+  platformVersion: '8.1'
+  deviceName: Nexus
+  appWaitActivity: com.address.book.MainActivity
+  app: https://github.com/address-book/mobile_apps/blob/master/AddressBook.apk?raw=true
+ios:
+  url: http://localhost:4723/wd/hub
+  platformName: iOS
+  platformVersion: '15.5'
+  deviceName: iPhone 8
+  app: TheApp.app
