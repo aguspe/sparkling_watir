@@ -15,6 +15,7 @@ module SparklingWatir
     end
 
     def tap
+      wait_until(&:present?)
       tap = action(:touch, 'tap')
       tap.create_pointer_move(duration: 0.1, x: bounds[:x], y: bounds[:y] - 1, origin: VIEWPORT)
       tap.create_pointer_down(:left)
@@ -25,6 +26,7 @@ module SparklingWatir
     alias press tap
 
     def double_tap
+      wait_until(&:present?)
       double_tap = action(:touch, 'double_tap')
       double_tap.create_pointer_move(duration: 0.1, x: bounds[:x], y: bounds[:y] - 1, origin: VIEWPORT)
       double_tap.create_pointer_down(:left)
