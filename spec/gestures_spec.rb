@@ -2,23 +2,33 @@ require_relative 'spec_helper'
 
 describe SparklingWatir::Gestures do
   it '#tap' do
-    element = @app.element(accessibility_id: 'Echo Box')
-    element.tap
-    back_button = @app.element(class: 'Button').wait_until(&:present?)
-    expect(back_button).to be_present
+    backpack = @app.element(accessibility_id: 'Sauce Labs Backpack')
+    backpack.tap
+    title = @app.element(accessibility_id: 'Add To Cart button').wait_until(&:present?)
+    expect(title).to be_present
   end
 
   it '#double_tap' do
-    element = @app.element(accessibility_id: 'Echo Box')
-    element.tap
-    @app.element(class: 'Button').double_tap
-    title = @app.element(accessibility_id: 'Choose An Awesome View')
+    menu_option = @app.element(accessibility_id: 'tab bar option menu')
+    menu_option.double_tap
+    title = @app.element(accessibility_id: 'API calls')
     expect(title.wait_until(&:present?)).to be_present
   end
 
-  it '#swipe' do
-    option = @app.element(accessibility_id: 'Picker Demo')
-    option.tap
+  it '#swipe_down' do
+    backpack = @app.element(accessibility_id: 'Sauce Labs Backpack')
+    backpack.tap
+    element = @app.element(accessibility_id: 'Sauce Labs Bolt T-Shirt')
+    backpack.swipe_to(:down, element)
+    backpack.tap
+  end
 
+  it '#swipe_right' do
+    menu = @app.element(accessibility_id: 'tab bar option menu')
+    menu.tap
+    drawing = @app.element(accessibility_id: 'menu item drawing')
+    scroll_bar = @app.element(accessibility_id: 'Vertical scroll bar, 2 pages')
+    drawing.swipe_to(:right, scroll_bar)
+    drawing.tap
   end
 end

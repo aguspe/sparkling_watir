@@ -18,3 +18,4 @@ class SpecHelper
     end
   end
 end
+
