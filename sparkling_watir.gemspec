@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['agustin.pe94@gmail.com']
 
   spec.summary       = 'A watir adaptation for testing your native mobile apps'
-  spec.description   = 'Sparkling watir takes heavy inspiration from tap watir and tries to provide a mobile adaptation of watir'
+  spec.description   = 'Sparkling watir takes heavy inspiration from tap watir and is a mobile adaptation of watir'
   spec.license       = 'MIT'
 
   # Specify which files should be added to the gem when it is released.
@@ -25,7 +25,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'bundler', '~> 2.3.17'
   spec.add_development_dependency 'rake', '~> 13.0.6'
   spec.add_development_dependency 'rspec', '~> 3.11.0'
-  spec.add_development_dependency 'rubocop', '~> 0.50'
+  spec.add_development_dependency 'rubocop', '~> 1.27'
+  spec.add_development_dependency 'rubocop-performance', '~> 1.15.0'
+  spec.add_development_dependency 'rubocop-rspec', '~> 2.9.0'
 
   spec.add_dependency 'appium_lib_core', '~>5.3.0 '
   spec.add_dependency 'watir', '~> 7.1.0'

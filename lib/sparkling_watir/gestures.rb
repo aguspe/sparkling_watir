@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'appium_lib_core/common/touch_action/touch_actions'
 require 'selenium/webdriver/common/interactions/interactions'
 
 module SparklingWatir
+  # This module handles all the possible gestures
   module Gestures
-
     VIEWPORT = ::Selenium::WebDriver::Interactions::PointerMove::VIEWPORT
 
     def action(kind, name)
@@ -14,8 +16,8 @@ module SparklingWatir
       @driver.perform_actions actions
     end
 
-    def tap
-      wait_until(&:present?)
+    def tap(timeout = nil)
+      wait_until(timeout: timeout, &:present?)
       tap = action(:touch, 'tap')
       tap.create_pointer_move(duration: 0.1, x: coordinates[:x], y: coordinates[:y], origin: VIEWPORT)
       tap.create_pointer_down(:left)
@@ -39,19 +41,13 @@ module SparklingWatir
     end
 
     def swipe(direction, element)
-      unless %i[left right up down].include? direction
-
-      end
-
       wait_until(&:present?)
 
       start_coordinates = bounds
       end_coordinates = element.wait_until(&:present?).bounds
       case direction
-      when :down
-        swipe_down(start_coordinates, end_coordinates)
-      when :right
-        swipe_right(start_coordinates, end_coordinates)
+      when :down then swipe_down(start_coordinates, end_coordinates)
+      when :right then swipe_right(start_coordinates, end_coordinates)
       else
         raise 'You have selected a wrong direction. Please choose between: left, right, up or down'
       end
