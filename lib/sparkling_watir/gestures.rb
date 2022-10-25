@@ -40,26 +40,42 @@ module SparklingWatir
       perform double_tap
     end
 
-    def swipe(direction, element)
+    def swipe(direction, element, end_coordinates = nil)
       wait_until(&:present?)
+      element.wait_until(&:exists?)
+      start_coordinates = coordinates
+      end_coordinates ||= element.coordinates
+      choose_direction(direction, start_coordinates, end_coordinates)
+    end
 
-      start_coordinates = bounds
-      end_coordinates = element.wait_until(&:present?).bounds
+    alias swipe_to swipe
+
+    private
+
+    def choose_direction(direction, start_coordinates, end_coordinates)
       case direction
       when :down then swipe_down(start_coordinates, end_coordinates)
       when :right then swipe_right(start_coordinates, end_coordinates)
+      when :up then swipe_up(start_coordinates, end_coordinates)
       else
         raise 'You have selected a wrong direction. Please choose between: left, right, up or down'
       end
     end
-
-    alias swipe_to swipe
 
     def swipe_down(start_coordinates, end_coordinates)
       finger = action(:touch, 'swipe')
       finger.create_pointer_move(duration: 1, x: start_coordinates[:x], y: start_coordinates[:y], origin: VIEWPORT)
       finger.create_pointer_down(:left)
       finger.create_pointer_move(duration: 1, x: end_coordinates[:x], y: - end_coordinates[:y], origin: VIEWPORT)
+      finger.create_pointer_up(:left)
+      perform finger
+    end
+
+    def swipe_up(start_coordinates, end_coordinates)
+      finger = action(:touch, 'swipe')
+      finger.create_pointer_move(duration: 1, x: start_coordinates[:x], y: start_coordinates[:y], origin: VIEWPORT)
+      finger.create_pointer_down(:left)
+      finger.create_pointer_move(duration: 1, x: end_coordinates[:x], y: -5 * end_coordinates[:y], origin: VIEWPORT)
       finger.create_pointer_up(:left)
       perform finger
     end

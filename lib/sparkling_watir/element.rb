@@ -44,6 +44,7 @@ module SparklingWatir
     end
 
     def coordinates
+      assert_exists
       @element.location
     end
     alias location coordinates

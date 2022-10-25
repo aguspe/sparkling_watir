@@ -5,34 +5,37 @@ require_relative '../lib/sparkling_watir/gestures'
 
 describe 'Gestures' do
   let(:app) { @app }
+  let(:backpack) { app.element(accessibility_id: 'Sauce Labs Backpack').wait_until(&:present?) }
 
   it '#tap' do
-    backpack = app.element(accessibility_id: 'Sauce Labs Backpack')
     backpack.tap
-    title = app.element(accessibility_id: 'Add To Cart button').wait_until(&:present?)
+    title = app.element(accessibility_id: 'Sauce Labs Backpack')
     expect(title).to be_present
   end
 
   it '#double_tap' do
-    menu_option = app.element(accessibility_id: 'tab bar option menu')
-    menu_option.double_tap
+    backpack.double_tap
     title = app.element(accessibility_id: 'API calls')
     expect(title.wait_until(&:present?)).to be_present
   end
 
   it '#swipe_down' do
-    backpack = app.element(accessibility_id: 'Sauce Labs Backpack')
-    backpack.tap
     element = app.element(accessibility_id: 'Sauce Labs Bolt T-Shirt')
-    backpack.swipe_to(:down, element)
-    backpack.tap
+    backpack.swipe(:down, element)
+    expect(app.element(predicate: 'label == "Products"')).not_to be_present
+  end
+
+  it '#swipe_up' do
+    element = app.element(accessibility_id: 'Sauce Labs Bolt T-Shirt')
+    title = app.element(xpath: '//XCUIElementTypeStaticText[@name="Products"]')
+    backpack.swipe(:down, element)
+    element.swipe_to(:up, title)
+    expect(title).to be_present
   end
 
   it '#swipe_right' do
-    app.element(accessibility_id: 'tab bar option menu').tap
-    drawing = app.element(accessibility_id: 'menu item drawing')
-    scroll_bar = app.element(accessibility_id: 'Vertical scroll bar, 2 pages')
-    drawing.swipe_to(:right, scroll_bar)
-    drawing.tap
+    backpack = app.element(accessibility_id: 'Sauce Labs Backpack')
+    element = app.element(accessibility_id: 'Sauce Labs Bike Light')
+    backpack.swipe(:right, element)
   end
 end
