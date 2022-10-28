@@ -26,6 +26,7 @@ module SparklingWatir
     rescue Watir::Exception::UnknownObjectException
       false
     end
+
     alias exist? exists?
 
     def present?
@@ -34,6 +35,7 @@ module SparklingWatir
     rescue Watir::Exception::UnknownObjectException
       false
     end
+
     alias visible? present?
 
     def enabled?
@@ -47,14 +49,23 @@ module SparklingWatir
       assert_exists
       @element.location
     end
+
     alias location coordinates
 
     def size
+      assert_exists
       @element.size
     end
 
     def bounds
       { x: coordinates.x + size.width, y: coordinates.y + size.height }
+    end
+
+    def center
+      {
+        x: coordinates[:x] + size.width / 2,
+        y: coordinates[:y] + size[:height] / 2
+      }
     end
 
     private

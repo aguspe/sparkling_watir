@@ -19,7 +19,7 @@ module SparklingWatir
     def tap(timeout = nil)
       wait_until(timeout: timeout, &:present?)
       tap = action(:touch, 'tap')
-      tap.create_pointer_move(duration: 0.1, x: coordinates[:x], y: coordinates[:y], origin: VIEWPORT)
+      tap.create_pointer_move(duration: 0.1, x: center[:x], y: center[:y], origin: VIEWPORT)
       tap.create_pointer_down(:left)
       tap.create_pointer_up(:left)
       perform tap
@@ -40,51 +40,67 @@ module SparklingWatir
       perform double_tap
     end
 
-    def swipe(direction, element, end_coordinates = nil)
+    def swipe(direction, element = nil, duration = 1, opts = {})
       wait_until(&:present?)
-      element.wait_until(&:exists?)
-      start_coordinates = coordinates
-      end_coordinates ||= element.coordinates
-      choose_direction(direction, start_coordinates, end_coordinates)
+      start_coordinates = center
+      end_coordinates = opts[:end_coordinates] || element.wait_until(&:exists?).coordinates
+      choose_direction(direction, duration, start_coordinates, end_coordinates)
     end
 
     alias swipe_to swipe
 
     private
 
-    def choose_direction(direction, start_coordinates, end_coordinates)
+    def choose_direction(direction, duration, start_coordinates, end_coordinates)
       case direction
-      when :down then swipe_down(start_coordinates, end_coordinates)
-      when :right then swipe_right(start_coordinates, end_coordinates)
-      when :up then swipe_up(start_coordinates, end_coordinates)
+      when :down then swipe_down(duration, start_coordinates, end_coordinates)
+      when :right then swipe_right(duration, start_coordinates, end_coordinates)
+      when :up then swipe_up(duration, start_coordinates, end_coordinates)
+      when :left then swipe_left(duration, start_coordinates, end_coordinates)
       else
         raise 'You have selected a wrong direction. Please choose between: left, right, up or down'
       end
     end
 
-    def swipe_down(start_coordinates, end_coordinates)
+    def swipe_down(duration, start_coordinates, end_coordinates)
       finger = action(:touch, 'swipe')
-      finger.create_pointer_move(duration: 1, x: start_coordinates[:x], y: start_coordinates[:y], origin: VIEWPORT)
+      finger.create_pointer_move(duration: duration, x: start_coordinates[:x], y: start_coordinates[:y],
+                                 origin: VIEWPORT)
       finger.create_pointer_down(:left)
-      finger.create_pointer_move(duration: 1, x: end_coordinates[:x], y: - end_coordinates[:y], origin: VIEWPORT)
+      finger.create_pointer_move(duration: duration, x: start_coordinates[:x], y: -1 * end_coordinates[:y],
+                                 origin: VIEWPORT)
       finger.create_pointer_up(:left)
       perform finger
     end
 
-    def swipe_up(start_coordinates, end_coordinates)
+    def swipe_up(duration, start_coordinates, end_coordinates)
       finger = action(:touch, 'swipe')
-      finger.create_pointer_move(duration: 1, x: start_coordinates[:x], y: start_coordinates[:y], origin: VIEWPORT)
+      finger.create_pointer_move(duration: duration, x: start_coordinates[:x], y: - start_coordinates[:y],
+                                 origin: VIEWPORT)
       finger.create_pointer_down(:left)
-      finger.create_pointer_move(duration: 1, x: end_coordinates[:x], y: -5 * end_coordinates[:y], origin: VIEWPORT)
+      finger.create_pointer_move(duration: duration, x: start_coordinates[:x], y: end_coordinates[:y], origin: VIEWPORT)
       finger.create_pointer_up(:left)
       perform finger
     end
 
-    def swipe_right(start_coordinates, end_coordinates)
+    def swipe_right(duration, start_coordinates, end_coordinates)
       finger = action(:touch, 'swipe')
-      finger.create_pointer_move(duration: 1, x: start_coordinates[:x], y: start_coordinates[:y], origin: VIEWPORT)
+      finger.create_pointer_move(duration: duration, x: start_coordinates[:x], y: start_coordinates[:y],
+                                 origin: VIEWPORT)
       finger.create_pointer_down(:left)
-      finger.create_pointer_move(duration: 1, x: - end_coordinates[:x], y: end_coordinates[:y], origin: VIEWPORT)
+      finger.create_pointer_move(duration: duration, x: - end_coordinates[:x], y: start_coordinates[:y],
+                                 origin: VIEWPORT)
+      finger.create_pointer_up(:left)
+      perform finger
+    end
+
+    def swipe_left(duration, start_coordinates, end_coordinates)
+      finger = action(:touch, 'swipe')
+      finger.create_pointer_move(duration: duration, x: start_coordinates[:x], y: start_coordinates[:y],
+                                 origin: VIEWPORT)
+      finger.create_pointer_down(:left)
+      finger.create_pointer_move(duration: duration, x: - end_coordinates[:x], y: start_coordinates[:y],
+                                 origin: VIEWPORT)
       finger.create_pointer_up(:left)
       perform finger
     end
